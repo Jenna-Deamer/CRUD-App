@@ -23,5 +23,13 @@ router.get('/', async (req, res) => {
 });
 
 
+/* GET: /transactions/create => display new transaction form */
+router.get('/create', (req, res) => {
+    res.render('transactions/create', {
+        title: 'Create New Transaction'
+    });
+});
+
+
 // Export the router
 module.exports = router;

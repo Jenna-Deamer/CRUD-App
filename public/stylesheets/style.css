@@ -64,7 +64,8 @@ nav {
 
 /*HOME */
 .heroSplash {
-    min-height: 100vh;
+     /*Take nav & footer heights into account, removing scrolling unless needed*/
+     height: calc(100vh - 48px - 106px);
     /*Image Styles*/
     background-image: url(/images/heroSplashImage.jpg);
     background-repeat: no-repeat;

@@ -28,4 +28,4 @@ let transaction = new mongoose.Schema({
 
 
 // make the model public so the controllers can use it
-module.exports = mongoose.model('Post', post);
+module.exports = mongoose.model('Transaction', transaction);
