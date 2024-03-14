@@ -1,13 +1,20 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+let index = require('./controllers/index');
+let users = require('./controllers/users');
 
-var app = express();
+//custom controllers
+let transactions = require('./controllers/transactions');
+
+//custom imports 
+let mongoose = require('mongoose');
+let dotenv = require('dotenv');
+
+let app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,16 +26,30 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//if app is not in production mode, connect to .env file for global vars
+//these global vars set in the Render dashboard in production mode
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+};
+
+// mongodb connection before controller included
+mongoose.connect(process.env.CONNECTION_string)
+  .then((res) => { console.log('connected to MongoDB') })
+  .catch((err) => { console.log('MongoDB connection failed') });
+
+app.use('/', index);
+// app.use('/users', users);
+// app.use('/transactions', transactions); 
+//use the transactions controller for /transactions requests
+
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

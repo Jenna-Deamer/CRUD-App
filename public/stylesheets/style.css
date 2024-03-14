@@ -1,8 +1,274 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Alata&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --primary-color: #0c4b10;
+    --secondary-color: #f1ae11;
+    --secondary-color-hover: #fdc23a;
+    --white: #fcfcfc;
+    --black: #070606;
+    --grey: #f0f0f0;
+    --red: #e51313;
+    --red-hover: #c00a0a;
 }
 
-a {
-  color: #00B7FF;
+
+body {
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    color: var(--black);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: "Alata", sans-serif;
+}
+
+/*Page containers*/
+.dashboard,
+.crudSectionWrapper {
+    background-color: var(--white);
+}
+
+/*Buttons*/
+.button {
+    padding: 8px 16px;
+    border-radius: 30px;
+    border: none;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.heroButton,
+.formButtonWrapper>button {
+    background-color: var(--secondary-color);
+    color: var(--black);
+    width: 200px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.heroButton:hover,
+.formButtonWrapper>button:hover,
+.dashboardButton:hover {
+    background-color: var(--secondary-color-hover);
+}
+
+
+/*NAV*/
+nav {
+    background-color: var(--primary-color);
+}
+
+/*HOME */
+.heroSplash {
+    min-height: 100vh;
+    /*Image Styles*/
+    background-image: url(/images/heroSplashImage.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    /*Text centering*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.heroButtonWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.heroButtonWrapper>a:first-of-type {
+    margin-right: 10px;
+}
+
+/*DASHBOARD*/
+.dashboard {
+    padding-bottom: 2em;
+    padding: 28px;
+}
+
+.dashboardContent {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 28px;
+}
+
+.dashboardTableWrapper {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+    padding: 16px;
+    border-radius: 20px;
+}
+
+.dashboardHeader {
+    text-align: center;
+    padding-top: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.dashboardHeader>h1 {
+    margin-bottom: .5em;
+}
+
+/*Dashboard Buttons*/
+.setGoalButton {
+    background-color: var(--secondary-color);
+    color: var(--black);
+    font-weight: bold;
+    margin-bottom: 2em;
+    width: 250px;
+}
+
+.setGoalButton:hover {
+    background-color: var(--secondary-color-hover);
+}
+
+.sortButton {
+    margin-right: 10px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s;
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.sortButton:not(:last-of-type) {
+    border-right: 1px solid #ccc;
+}
+
+.sortButton:hover {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.dashboardButtonContainer {
+    /*force button at right end of row*/
+    margin-left: auto;
+}
+/*Transaction edit & delete buttons*/
+.dashboardAddButton {
+    background-color: var(--secondary-color);
+    color: var(--black);
+    margin-top: 10px;
+    padding: 6px 12px;
+    border-radius: 30px;
+    border: none;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.dashboardManageButtons {
+    /* Make buttons a perfect circle */
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    /* Ensures button takes up the width and height */
+    justify-content: center;
+    /* Centers content horizontally */
+    align-items: center;
+    /* Centers content vertically */
+}
+
+.dashboardDeleteButton {
+    background-color: var(--red);
+    color: var(--white);
+    transition: background-color 0.2s ease;
+}
+
+.dashboardDeleteButton:hover {
+    background-color: var(--red-hover);
+}
+
+.dashboardEditButton {
+    background-color: var(--secondary-color);
+    color: var(--black);
+    transition: background-color 0.2s ease;
+}
+
+.dashboardEditButton:hover {
+    background-color: var(--secondary-color-hover);
+}
+
+/*Dashboard Transaction Table*/
+.dashboardTable tbody tr:nth-child(even) td {
+    background-color: var(--grey);
+}
+
+.tableOptions {
+    margin-bottom: 1.2em;
+    display: flex;
+    align-items: center;
+}
+
+.tableOptions>label {
+    font-weight: bold;
+}
+
+/*Dashboard Summary*/
+.dashboardSummary {
+    background-color: var(--white);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+    padding: 16px;
+    border-radius: 20px;
+}
+
+/*Dashboard Mobile*/
+@media screen and (max-width: 1200px) {
+    .dashboardContent {
+        grid-template-columns: 1fr;
+        /* Change to a single column layout */
+    }
+}
+
+/*Table scrolling for small screens*/
+@media screen and (max-width: 600px) {
+    .dashboardContent {
+        grid-template-columns: 1fr;
+        /* Change to a single column layout */
+    }
+
+    .dashboardButton {
+        font-size: 14px;
+
+    }
+
+    .dashboardTableWrapper {
+        overflow-x: auto;
+        /* Add horizontal scrolling for the table */
+    }
+}
+
+/*CRUD Forms*/
+.crudSectionWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.formButtonWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+/*Footer*/
+footer {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding-top: 8px;
+    display: flex;
+    justify-content: center;
 }
