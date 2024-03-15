@@ -35,8 +35,8 @@ router.post("/create", async (req, res) => {
   // use mongoose model to save new post to db
   await Transaction.create(req.body);
 
-  // go back to the create form
-  res.redirect("/transactions/create");
+  // go back to dash
+  res.redirect("/transactions");
 });
 
 /* GET: /transaction/edit/abc123 => display selected doc in form */

@@ -1,7 +1,8 @@
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const moment = require('moment');
 
 // define transaction model
-let transaction = new mongoose.Schema({
+const transaction = new mongoose.Schema({
     //users will choose the type of transaction
     type:{
         type: String,
@@ -18,11 +19,13 @@ let transaction = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default: Date.now
+        //Moment.js allows for easy date formatting.
+        //reducing the amount of code I'd to write to get this format
+        default: () => moment().format('MM-DD-YYYY')
       },
       description:{
         type: String,
-        maxlength: 100 
+        maxlength: 100
       }
 });
 
