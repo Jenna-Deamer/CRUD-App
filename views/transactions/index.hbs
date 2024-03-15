@@ -12,7 +12,7 @@
         <button class="sortButton">Year</button>
         <button class="sortButton">Transaction Type</button>
         <div class="dashboardButtonContainer">
-          <a href="/create" class="dashboardAddButton"><i class="bi bi-plus-circle"></i> Add Transaction</a>
+          <a href="/transactions/create" class="dashboardAddButton"><i class="bi bi-plus-circle"></i> Add Transaction</a>
         </div>
       </div>
       
@@ -29,17 +29,16 @@
           </tr>
         </thead>
         <tbody>
-          {{!-- {{#each transactions}}
+          {{#each transactions}}
           <tr>
             <td>{{type}}</td>
             <td>{{name}}</td>
             <td>${{amount}}</td>
             <td>{{date}}</td>
             <td>{{description}}</td>
-            <td><a href="/edit" class="dashboardEditButton dashboardManageButtons"><i class="bi bi-pencil"></i></a></td>
-            <td><a href="/edit" class="dashboardDeleteButton dashboardManageButtons"><i class="bi bi-x"></i></a></td>
-          </tr>
-          {{/each}} --}}
+          <td><a href="/transactions/edit/{{_id}}" class="dashboardEditButton dashboardManageButtons"><i class="bi bi-pencil"></i></a></td>
+<td><a href="/transactions/delete/{{_id}}" class="dashboardDeleteButton dashboardManageButtons"><i class="bi bi-x"></i></a></td>
+          {{/each}}
         </tbody>
       </table>
 

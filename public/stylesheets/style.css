@@ -16,6 +16,7 @@ body {
     font-family: "Montserrat", sans-serif;
     font-size: 16px;
     color: var(--black);
+    box-sizing: border-box;
 }
 
 h1,
@@ -27,22 +28,29 @@ h5 {
 }
 
 /*Page containers*/
-.dashboard,
-.crudSectionWrapper {
+.pageWrapper,.heroSplash,.dashboard,.crudSectionWrapper{
+     /*Take nav & footer heights into account, removing scrolling unless needed*/
+     min-height: calc(100vh - 48px - 106px);
+}
+
+.crudSectionWrapper,
+.pageWrapper {
     background-color: var(--white);
+}
+.dashboard{
+    background-color: var(--grey);
 }
 
 /*Buttons*/
 .button {
-    padding: 8px 16px;
+    padding: 8px;
     border-radius: 30px;
     border: none;
     text-decoration: none;
     transition: background-color 0.2s ease;
 }
 
-.heroButton,
-.formButtonWrapper>button {
+.heroButton {
     background-color: var(--secondary-color);
     color: var(--black);
     width: 200px;
@@ -64,8 +72,6 @@ nav {
 
 /*HOME */
 .heroSplash {
-     /*Take nav & footer heights into account, removing scrolling unless needed*/
-     height: calc(100vh - 48px - 106px);
     /*Image Styles*/
     background-image: url(/images/heroSplashImage.jpg);
     background-repeat: no-repeat;
@@ -94,7 +100,9 @@ nav {
     padding-bottom: 2em;
     padding: 28px;
 }
-
+.dashboardTableWrapper,.dashboardSummary{
+    background-color: var(--white);
+}
 .dashboardContent {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -167,7 +175,9 @@ nav {
     text-decoration: none;
     transition: background-color 0.2s ease;
 }
-
+.dashboardAddButton:hover{
+    background-color: var(--secondary-color-hover);
+}
 .dashboardManageButtons {
     /* Make buttons a perfect circle */
     width: 36px;
@@ -265,6 +275,15 @@ nav {
     justify-content: center;
 }
 
+.formButtonWrapper>button {
+    background-color: var(--secondary-color);
+    padding: 10px;
+    transition: .2s ease-in;
+    font-weight: bold;
+}
+.formButtonWrapper>button:hover{
+    background-color: var(--secondary-color-hover);
+}
 /*Footer*/
 footer {
     background-color: var(--primary-color);
