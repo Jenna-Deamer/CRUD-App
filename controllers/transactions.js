@@ -3,6 +3,7 @@ let router = express.Router();
 
 // Transaction model for CRUD
 let Transaction = require("../models/transaction");
+const transaction = require("../models/transaction");
 
 /* GET: /transaction => show dashboard page */
 router.get("/", async (req, res) => {
@@ -62,6 +63,17 @@ router.post("/edit/:_id", async (req, res) => {
     // Redirect to the dashboard
     res.redirect("/transactions");
  
+});
+
+/* GET: /transactions/delete/abc123 => remove selected doc & redirect */
+router.get('/delete/:_id', async (req, res) => {
+  // delete selected doc based on _id in url param
+  // get selected doc from db
+  let transactionToDelete  = await Transaction.findById(req.params._id);
+      await transactionToDelete.deleteOne({ _id: transaction._id });
+      // redirect
+      res.redirect('/transactions');
+  
 });
 
 // Export the router
