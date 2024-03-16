@@ -6,6 +6,7 @@ let logger = require('morgan');
 
 let index = require('./controllers/index');
 let users = require('./controllers/users');
+let auth = require('./controllers/auth');
 
 //custom controllers
 let transactions = require('./controllers/transactions');
@@ -39,8 +40,9 @@ mongoose.connect(process.env.CONNECTION_string)
 
 app.use('/', index);
 app.use('/users', users);
+//custom controllers
 app.use('/transactions', transactions); 
-//use the transactions controller for /transactions requests
+app.use('/auth', auth);
 
 
 // catch 404 and forward to error handler

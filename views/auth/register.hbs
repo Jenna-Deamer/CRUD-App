@@ -1,0 +1,26 @@
+<section class="authPageWrapper pageWrapper">
+    <h1 class="text-center pb-4">Sign Up</h1>
+    <form method="post" class="needs-validation" novalidate>
+        <fieldset>
+            <label for="username" class="form-label">Username: *</label>
+            <input name="username" id="username" class="form-control mb-3" required />
+            <div class="invalid-feedback">Please enter a username.</div>
+        </fieldset>
+        <fieldset>
+            <label for="password" class="form-label">Password: *</label>
+            <input name="password" id="password" class="form-control mb-3" required type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" />
+            <small id="passwordDesc">Min: 8 characters, 1 digit, 1 upper, 1 lower</small>  
+            <div class="invalid-feedback">Please enter a valid password.</div>
+        </fieldset> 
+        <fieldset class="pt-2">
+            <label for="confirm" class="form-label">Confirm Password: *</label>
+            <input name="confirm" id="confirm" class="form-control mb-3" required type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" onkeyup="return checkPassword();" />
+            <span id="pwMsg"></span>
+            <div class="invalid-feedback">Passwords must match and meet the criteria.</div>
+        </fieldset>
+         <div class='formButtonWrapper'>
+             <button type="submit" class="button authButton">Register</button>
+         </div>
+       
+    </form>
+</section>

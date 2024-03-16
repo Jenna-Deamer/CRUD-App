@@ -48,6 +48,7 @@ h5 {
     border: none;
     text-decoration: none;
     transition: background-color 0.2s ease;
+    width: 200px;
 }
 
 .heroButton {
@@ -284,7 +285,17 @@ nav {
 .formButtonWrapper>button:hover{
     background-color: var(--secondary-color-hover);
 }
+/*User Auth Forms*/
 /*Footer*/
+.authPageWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#passwordDesc{
+    font-style: italic;
+}
 footer {
     background-color: var(--primary-color);
     color: var(--white);

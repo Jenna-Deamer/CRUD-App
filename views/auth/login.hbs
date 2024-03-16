@@ -1,0 +1,19 @@
+<h1>Login</h1>
+{{#if messages}}
+    <h4 class="alert alert-danger">Invalid Login</h4>
+{{else}}
+    <h4 class="alert alert-secondary">Please enter your credentials</h4>
+{{/if}}
+<form method="post">
+    <fieldset>
+        <label for="username">Username: *</label>
+        <input name="username" id="username" required />
+    </fieldset>
+    <fieldset>
+        <label for="password">Password: *</label>
+        <input name="password" id="password" required type="password" />
+    </fieldset> 
+    <button class="btn btn-info offset-4">
+        <i class="bi bi-person-fill-check"></i> Login
+    </button>
+</form>
