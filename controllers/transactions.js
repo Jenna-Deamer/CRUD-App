@@ -11,10 +11,27 @@ router.get("/", async (req, res) => {
     // Fetch transaction data from the database
     const transactions = await Transaction.find().sort({ date: -1 });
 
+    //get totals for summary section 
+    //set inital values
+    let totalIncome = 0;
+    let totalExpense = 0;
+
+    //get total expense & total income
+    transactions.forEach(function (transaction) {
+      if (transaction.type === 'Expense') {
+        totalExpense += transaction.amount;
+      } else if (transaction.type === 'Income') {
+        totalIncome += transaction.amount;
+      }
+    });
+    //get saved
+    let saved = totalIncome - totalExpense;
     // Render the transaction dashboard (index.hbs) with the fetched data
     res.render("transactions/index", {
       title: "Dashboard",
       transactions: transactions,
+      totalIncome: totalIncome,
+      totalExpense: totalExpense
     });
   } catch (error) {
     // Handle errors
@@ -58,23 +75,24 @@ router.get("/edit/:_id", async (req, res) => {
 
 /* POST: /transactions/edit/abc123 => updated doc from form submission */
 router.post("/edit/:_id", async (req, res) => {
-    // update doc
-    await Transaction.findByIdAndUpdate(req.params._id, req.body);
-    // Redirect to the dashboard
-    res.redirect("/transactions");
- 
+  // update doc
+  await Transaction.findByIdAndUpdate(req.params._id, req.body);
+  // Redirect to the dashboard
+  res.redirect("/transactions");
+
 });
 
 /* GET: /transactions/delete/abc123 => remove selected doc & redirect */
 router.get('/delete/:_id', async (req, res) => {
   // delete selected doc based on _id in url param
   // get selected doc from db
-  let transactionToDelete  = await Transaction.findById(req.params._id);
-      await transactionToDelete.deleteOne({ _id: transaction._id });
-      // redirect
-      res.redirect('/transactions');
-  
+  let transactionToDelete = await Transaction.findById(req.params._id);
+  await transactionToDelete.deleteOne({ _id: transaction._id });
+  // redirect
+  res.redirect('/transactions');
+
 });
+
 
 // Export the router
 module.exports = router;
