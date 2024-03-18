@@ -6,10 +6,11 @@ let logger = require('morgan');
 
 let index = require('./controllers/index');
 let users = require('./controllers/users');
-let auth = require('./controllers/auth');
+
 
 //custom controllers
 let transactions = require('./controllers/transactions');
+let auth = require('./controllers/auth');
 
 //custom imports 
 let mongoose = require('mongoose');

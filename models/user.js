@@ -4,12 +4,13 @@ const plm = require('passport-local-mongoose');
 const user = new mongoose.Schema({
     username: { 
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
         required: true,
-        minLength: 8
+        minlength: 8 
     }
 });
 

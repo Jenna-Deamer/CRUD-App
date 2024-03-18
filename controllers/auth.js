@@ -19,7 +19,7 @@ router.post('/register', (req, res) => {
         }
         else {
             req.login(newUser, (err) => {
-                res.redirect('/transactions');
+                res.redirect('transactions/index');
             });
         }
     });
@@ -40,7 +40,7 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/transactions',
+    successRedirect: 'transactions/index',
     failureRedirect: '/auth/login',
     failureMessage: 'Invalid Login'
 }));
