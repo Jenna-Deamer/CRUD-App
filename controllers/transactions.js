@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
       const formattedDate = moment(transaction.date).format('MM/DD/YYYY');
       
       //format currency for all records
-      const formattedAmount = '$' + moment(transaction.amount).format('0,0.00');
+      // const formattedAmount = '$' + moment(transaction.amount).format('0,0.00');
 
       /*return as an object. 
       "..." is used to clone props from original transaction object
@@ -26,8 +26,8 @@ router.get("/", async (req, res) => {
       */
       return {  
         ...transaction.toObject(),
-        date: formattedDate,
-        amount: formattedAmount};
+        date: formattedDate
+        };
     });
 
 

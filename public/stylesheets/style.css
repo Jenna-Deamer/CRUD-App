@@ -18,6 +18,9 @@ body {
     color: var(--black);
     box-sizing: border-box;
 }
+nav,footer{
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, .5);
+}
 
 h1,
 h2,
@@ -73,8 +76,9 @@ nav {
 
 /*HOME */
 .heroSplash {
+    
     /*Image Styles*/
-    background-image: url(/images/heroSplashImage.jpg);
+    background-image: url(/images/heroImg.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -85,7 +89,10 @@ nav {
     align-items: center;
     text-align: center;
 }
-
+.heroSplash>h1,h4{
+    color: var(--white);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
 .heroButtonWrapper {
     display: flex;
     justify-content: center;
@@ -112,7 +119,7 @@ nav {
 
 .dashboardTableWrapper {
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
-    padding: 16px;
+    padding: 30px;
     border-radius: 20px;
 }
 
@@ -233,8 +240,9 @@ nav {
 .dashboardSummary {
     background-color: var(--white);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
-    padding: 16px;
+    padding: 30px;
     border-radius: 20px;
+
 }
 
 /*Dashboard Mobile*/
