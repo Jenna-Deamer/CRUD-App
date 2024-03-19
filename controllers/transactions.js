@@ -1,5 +1,6 @@
 let express = require("express");
 let router = express.Router();
+const moment = require('moment');
 
 // Transaction model for CRUD
 let Transaction = require("../models/transaction");
@@ -8,11 +9,30 @@ const transaction = require("../models/transaction");
 /* GET: /transaction => show dashboard page */
 router.get("/", async (req, res) => {
   try {
-    // Fetch transaction data from the database
+    // Fetch transaction data from db
     const transactions = await Transaction.find().sort({ date: -1 });
+    //change formatting of transaction records using moment.js
+    const formattedTransactions = transactions.map(transaction => {
+
+      //format the date for every transaction in table using moment.js
+      const formattedDate = moment(transaction.date).format('MM/DD/YYYY');
+      
+      //format currency for all records
+      const formattedAmount = '$' + moment(transaction.amount).format('0,0.00');
+
+      /*return as an object. 
+      "..." is used to clone props from original transaction object
+      then override date & amount with newly formatted properties.
+      */
+      return {  
+        ...transaction.toObject(),
+        date: formattedDate,
+        amount: formattedAmount};
+    });
+
 
     //get totals for summary section 
-    //set inital values
+    //set initial values
     let totalIncome = 0;
     let totalExpense = 0;
 
@@ -25,11 +45,11 @@ router.get("/", async (req, res) => {
       }
     });
     //get saved
-    let saved = totalIncome - totalExpense;
+    let totalSaved = totalIncome - totalExpense;
     // Render the transaction dashboard (index.hbs) with the fetched data
     res.render("transactions/index", {
       title: "Dashboard",
-      transactions: transactions,
+      transactions: formattedTransactions,
       totalIncome: totalIncome,
       totalExpense: totalExpense
     });

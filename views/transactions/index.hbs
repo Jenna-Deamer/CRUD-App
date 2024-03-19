@@ -34,7 +34,7 @@
           <tr>
             <td>{{type}}</td>
             <td>{{name}}</td>
-            <td>${{amount}}</td>
+            <td>{{amount}}</td>
             <td>{{date}}</td>
             <td>{{description}}</td>
             <td><a href="/transactions/edit/{{_id}}" class="dashboardEditButton dashboardManageButtons"><i
@@ -50,7 +50,6 @@
 
     <section class="dashboardSummary">
       <h2 class="text-center">Summary</h2>
-      <p class="text-center">This month you saved: $<span id="totalSaved">{{saved}}</span></p>
       <p>Total Earned: $<span id="totalIncome">{{totalIncome}}</span></p>
       <p>Total Spent: $<span id="totalExpense">{{totalExpense}}</span></p>
       <p class="text-center">You are $<span id=""></span> your goal</p>
