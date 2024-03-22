@@ -12,8 +12,9 @@ const transaction = require("../models/transaction");
 /* GET: /transaction => show dashboard page */
 router.get("/", authCheck, async (req, res) => {
   try {
-    // Fetch transaction data from db
-    const transactions = await Transaction.find().sort({ date: -1 });
+    // Fetch transaction data from db for current logged in user
+    const transactions = await Transaction.find({ user: req.user._id }).sort({ date: -1 });
+
     //change formatting of transaction records using moment.js
     const formattedTransactions = transactions.map(transaction => {
 
@@ -70,14 +71,32 @@ router.get("/create", authCheck, (req, res) => {
     title: "Create New Transaction",
   });
 });
-
 /* POST: /transaction/create => process form submission to save new transaction*/
 router.post("/create", authCheck, async (req, res) => {
-  // use mongoose model to save new post to db
-  await Transaction.create(req.body);
+  try {
+    //create transactions under the user. Only transactions current user made will display for them.
+    // Get user ID from the authenticated user
+    const userId = req.user._id;
+    /*req.body was not populating user Field
+     Create Transaction with all fields listed out manually*/
+    const newTransaction = new Transaction({
+      type: req.body.type,
+      name: req.body.name,
+      amount: req.body.amount,
+      description: req.body.description,
+      user: userId
+    });
 
-  // go back to dash
-  res.redirect("/transactions");
+    // Save the transaction to the db
+    await newTransaction.save();
+
+    // Redirect back to dashboard after creating the transaction
+    res.redirect("/transactions");
+  } catch (error) {
+    // Handle errors
+    console.error("Error creating transaction:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 /* GET: /transaction/edit/abc123 => display selected doc in form */
