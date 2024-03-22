@@ -12,7 +12,7 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
     // use passport local to try creating a new user w/hashed pw
-    User.register(new User({ username: req.body.username ,password: req.body.password}), req.body.password, (err, newUser) => {
+    User.register(new User({ username: req.body.username, password: req.body.password}), req.body.password, (err, newUser) => {
         if (err) {
             console.log(err);
             return res.render('auth/register');

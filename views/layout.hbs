@@ -25,24 +25,25 @@
                         <a class="nav-link" href="/transactions">Dashboard</a>
                     </li>
                 </ul>
+                
+<ul class="navbar-nav ms-auto">
+  {{#if user}}
+    <li class="nav-item">
+      <a class="nav-link" href="#">Hello, {{user.username}}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/auth/logout">Logout</a>
+    </li>
+  {{else}}
+    <li class="nav-item">
+      <a class="nav-link" href="/auth/register">Sign-Up</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/auth/login">Login</a>
+    </li>
+  {{/if}}
+</ul>
 
-                <ul class="navbar-nav ms-auto">
-                {{#if user}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Hello, {{user.username}}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/auth/logout">Logout</a>
-                    </li>
-                {{else}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/auth/register">Sign-Up</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/auth/login">Login</a>
-                    </li>
-                {{/if}}
-            </ul>
             </div>
         </div>
     </nav>

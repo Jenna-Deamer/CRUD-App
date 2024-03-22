@@ -52,6 +52,7 @@ router.get("/", authCheck, async (req, res) => {
     // Render the transaction dashboard (index.hbs) with the fetched data
     res.render("transactions/index", {
       title: "Dashboard",
+      user: req.user,
       transactions: formattedTransactions,
       totalIncome: totalIncome,
       totalExpense: totalExpense

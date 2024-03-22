@@ -7,6 +7,7 @@ let axios = require('axios');
 router.get('/', (req, res, next) => {
   res.render('index', {
     title: 'Budget App Home',
+    user: req.user
     
   });
 });
@@ -14,13 +15,15 @@ router.get('/', (req, res, next) => {
 /* GET /register => load static view */
 router.get('/register', (req, res) => {
   res.render('register', {
-    title: 'Register'
+    title: 'Register',
+    user: req.user
   });
 });
 
 router.get('/login', (req, res) => {
   res.render('login', {
-    title: 'Login'
+    title: 'Login',
+    user: req.user
   });
 });
 
