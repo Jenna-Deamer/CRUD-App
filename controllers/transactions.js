@@ -2,12 +2,15 @@ let express = require("express");
 let router = express.Router();
 const moment = require('moment');
 
+// global auth check
+let authCheck = require('../authCheck');
+
 // Transaction model for CRUD
 let Transaction = require("../models/transaction");
 const transaction = require("../models/transaction");
 
 /* GET: /transaction => show dashboard page */
-router.get("/", async (req, res) => {
+router.get("/", authCheck, async (req, res) => {
   try {
     // Fetch transaction data from db
     const transactions = await Transaction.find().sort({ date: -1 });
@@ -61,14 +64,14 @@ router.get("/", async (req, res) => {
 });
 
 /* GET: /transactions/create => display new transaction form */
-router.get("/create", (req, res) => {
+router.get("/create", authCheck, (req, res) => {
   res.render("transactions/create", {
     title: "Create New Transaction",
   });
 });
 
 /* POST: /transaction/create => process form submission to save new transaction*/
-router.post("/create", async (req, res) => {
+router.post("/create", authCheck, async (req, res) => {
   // use mongoose model to save new post to db
   await Transaction.create(req.body);
 
@@ -77,7 +80,7 @@ router.post("/create", async (req, res) => {
 });
 
 /* GET: /transaction/edit/abc123 => display selected doc in form */
-router.get("/edit/:_id", async (req, res) => {
+router.get("/edit/:_id", authCheck,  async (req, res) => {
   try {
     // get selected doc from db
     let transaction = await Transaction.findById(req.params._id);
@@ -94,7 +97,7 @@ router.get("/edit/:_id", async (req, res) => {
 });
 
 /* POST: /transactions/edit/abc123 => updated doc from form submission */
-router.post("/edit/:_id", async (req, res) => {
+router.post("/edit/:_id", authCheck, async (req, res) => {
   // update doc
   await Transaction.findByIdAndUpdate(req.params._id, req.body);
   // Redirect to the dashboard
@@ -103,7 +106,7 @@ router.post("/edit/:_id", async (req, res) => {
 });
 
 /* GET: /transactions/delete/abc123 => remove selected doc & redirect */
-router.get('/delete/:_id', async (req, res) => {
+router.get('/delete/:_id', authCheck,  async (req, res) => {
   // delete selected doc based on _id in url param
   // get selected doc from db
   let transactionToDelete = await Transaction.findById(req.params._id);

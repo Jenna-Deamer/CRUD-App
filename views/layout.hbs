@@ -1,56 +1,58 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
-    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
     <script src="/javascripts/bootstrap.min.js" defer></script>
     <script src="/javascripts/usersScripts.js" defer></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="/images/logo.png" alt="Logo" width="80" height="80">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/transactions">Dashboard</a>
+                    </li>
+                </ul>
 
-  </head>
-  <body>
-  <nav class="navbar navbar-expand-lg navbar-dark ">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">
-      <img src="/images/logo.png" alt="Logo" width="80" height="80">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/transactions">Dashboard</a>
-        </li>
-       
-        </li>
-      </ul>
-             </ul>
-          <ul class="navbar-nav ms-auto me-2">
-            {{#if user}}
-              <li class="nav-item">
-                <a class="nav-link" href="#">{{user.username}}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/auth/logout">Logout</a>
-              </li>
-            {{else}}
-              <li class="nav-item">
-          <a class="nav-link" href="/auth/login">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/auth/register">Sign Up</a>
-            {{/if}}
-          </ul>
-    </div>
-  </div>
-</nav>
+                <ul class="navbar-nav ms-auto">
+                {{#if user}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Hello, {{user.username}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/logout">Logout</a>
+                    </li>
+                {{else}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/register">Sign-Up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/login">Login</a>
+                    </li>
+                {{/if}}
+            </ul>
+            </div>
+        </div>
+    </nav>
 
     <main>
-      {{{body}}}
+        {{{body}}}
     </main>
-    <footer>
-      <p class="text-center"> &copy;2024 Jenna Deamer</p>
+
+    <footer class="text-center">
+        <p>&copy; 2024 Jenna Deamer</p>
     </footer>
-  </body>
+</body>
 </html>
