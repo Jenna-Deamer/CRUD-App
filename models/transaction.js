@@ -33,6 +33,10 @@ const transaction = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User", // reference the user model
   },
+  isMock: { 
+    type: Boolean, 
+    default: false 
+  }
 });
 
 // make the model public so the controllers can use it

@@ -11,29 +11,24 @@ const Transaction = require("../models/transaction");
 /* GET: /transaction => show dashboard page */
 router.get("/", authCheck, async (req, res) => {
   try {
-    // Initialize vars for totals
     let totalIncome = 0;
     let totalExpense = 0;
-    let transactions = []; //initialize as empty
+    let transactions = []; // Initialize as empty
 
-    // Check if user is logged in & display & format their records
+    // Check if user is logged in
     if (req.isAuthenticated()) {
-      // Fetch transaction data from db for current logged in user
+      //get transactions for current logged in user. 
       transactions = await Transaction.find({ user: req.user._id }).sort({
         date: -1,
       });
 
-      // Change formatting of transaction records using moment.js
+      // Format transactions for logged-in users
       const formattedTransactions = transactions.map((transaction) => {
-        // Format the date for every transaction in table using moment.js
         const formattedDate = moment(transaction.date).format("MM/DD/YYYY");
-        return {
-          ...transaction.toObject(),
-          date: formattedDate,
-        };
+        return { ...transaction.toObject(), date: formattedDate };
       });
 
-      // Get total expense & total income
+      // calc totals for logged-in users
       transactions.forEach(function (transaction) {
         if (transaction.type === "Expense") {
           totalExpense += transaction.amount;
@@ -42,7 +37,7 @@ router.get("/", authCheck, async (req, res) => {
         }
       });
 
-      // Render the transaction dashboard (index.hbs) w/ logged in users data
+      // Render dashboard for logged-in users
       return res.render("transactions/index", {
         title: "Dashboard",
         user: req.user,
@@ -50,41 +45,38 @@ router.get("/", authCheck, async (req, res) => {
         totalIncome: totalIncome,
         totalExpense: totalExpense,
       });
-    } //end of if
+    } else {
+      // If user is not logged in, fetch and render dummy data
+      const dummyTransactions = await Transaction.find({ isMock: true }).sort({
+        date: -1,
+      });
 
-    // Generate dummy data for non-logged-in users
-    const dummyTransactions = [
-      {
-        date: "03/22/2024",
-        description: "Dummy Expense",
-        amount: 50,
-        type: "Expense",
-      },
-      {
-        date: "03/21/2024",
-        description: "Dummy Income",
-        amount: 100,
-        type: "Income",
-      },
-    ];
+      // Format dummy transactions
+      const formattedDummyTransactions = dummyTransactions.map(
+        (transaction) => {
+          const formattedDate = moment(transaction.date).format("MM/DD/YYYY");
+          return { ...transaction.toObject(), date: formattedDate };
+        }
+      );
 
-    // Calculate total income & total expense for dummyData
-    dummyTransactions.forEach(function (transaction) {
-      if (transaction.type === "Expense") {
-        totalExpense += transaction.amount;
-      } else if (transaction.type === "Income") {
-        totalIncome += transaction.amount;
-      }
-    });
+      // calc totals for dummy data
+      dummyTransactions.forEach(function (transaction) {
+        if (transaction.type === "Expense") {
+          totalExpense += transaction.amount;
+        } else if (transaction.type === "Income") {
+          totalIncome += transaction.amount;
+        }
+      });
 
-    // Render dashboard with dummydata for non-logged in users
-    res.render("transactions/index", {
-      title: "Dashboard",
-      user: null, // Non-logged-in users do not have a user field
-      transactions: dummyTransactions,
-      totalIncome: totalIncome,
-      totalExpense: totalExpense,
-    });
+      // Render dashboard with dummy data for non-logged-in users
+      res.render("transactions/index", {
+        title: "Dashboard",
+        user: null,
+        transactions: formattedDummyTransactions,
+        totalIncome: totalIncome,
+        totalExpense: totalExpense,
+      });
+    }
   } catch (error) {
     // Handle errors
     console.error("Error fetching transactions:", error);

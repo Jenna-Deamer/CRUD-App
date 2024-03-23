@@ -29,10 +29,10 @@
 <ul class="navbar-nav ms-auto">
   {{#if user}}
     <li class="nav-item">
-      <a class="nav-link" href="#">Hello, {{user.username}}</a>
+      <a class="nav-link" href="#"><i class="bi bi-person-circle"></i> Hello, {{user.username}}</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/auth/logout">Logout</a>
+      <a class="nav-link" href="/auth/logout"><i class="bi bi-door-open"></i> Logout</a>
     </li>
   {{else}}
     <li class="nav-item">
