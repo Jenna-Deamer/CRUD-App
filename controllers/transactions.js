@@ -1,62 +1,89 @@
-let express = require("express");
-let router = express.Router();
-const moment = require('moment');
+const moment = require("moment");
+const express = require("express");
+const router = express.Router();
 
-// global auth check
-let authCheck = require('../authCheck');
+// Global auth check
+const authCheck = require("../authCheck");
 
 // Transaction model for CRUD
-let Transaction = require("../models/transaction");
-const transaction = require("../models/transaction");
+const Transaction = require("../models/transaction");
 
 /* GET: /transaction => show dashboard page */
 router.get("/", authCheck, async (req, res) => {
   try {
-    // Fetch transaction data from db for current logged in user
-    const transactions = await Transaction.find({ user: req.user._id }).sort({ date: -1 });
-
-    //change formatting of transaction records using moment.js
-    const formattedTransactions = transactions.map(transaction => {
-
-      //format the date for every transaction in table using moment.js
-      const formattedDate = moment(transaction.date).format('MM/DD/YYYY');
-      
-      //format currency for all records
-      // const formattedAmount = '$' + moment(transaction.amount).format('0,0.00');
-
-      /*return as an object. 
-      "..." is used to clone props from original transaction object
-      then override date & amount with newly formatted properties.
-      */
-      return {  
-        ...transaction.toObject(),
-        date: formattedDate
-        };
-    });
-
-
-    //get totals for summary section 
-    //set initial values
+    // Initialize vars for totals
     let totalIncome = 0;
     let totalExpense = 0;
+    let transactions = []; //initialize as empty
 
-    //get total expense & total income
-    transactions.forEach(function (transaction) {
-      if (transaction.type === 'Expense') {
+    // Check if user is logged in & display & format their records
+    if (req.isAuthenticated()) {
+      // Fetch transaction data from db for current logged in user
+      transactions = await Transaction.find({ user: req.user._id }).sort({
+        date: -1,
+      });
+
+      // Change formatting of transaction records using moment.js
+      const formattedTransactions = transactions.map((transaction) => {
+        // Format the date for every transaction in table using moment.js
+        const formattedDate = moment(transaction.date).format("MM/DD/YYYY");
+        return {
+          ...transaction.toObject(),
+          date: formattedDate,
+        };
+      });
+
+      // Get total expense & total income
+      transactions.forEach(function (transaction) {
+        if (transaction.type === "Expense") {
+          totalExpense += transaction.amount;
+        } else if (transaction.type === "Income") {
+          totalIncome += transaction.amount;
+        }
+      });
+
+      // Render the transaction dashboard (index.hbs) w/ logged in users data
+      return res.render("transactions/index", {
+        title: "Dashboard",
+        user: req.user,
+        transactions: formattedTransactions,
+        totalIncome: totalIncome,
+        totalExpense: totalExpense,
+      });
+    } //end of if
+
+    // Generate dummy data for non-logged-in users
+    const dummyTransactions = [
+      {
+        date: "03/22/2024",
+        description: "Dummy Expense",
+        amount: 50,
+        type: "Expense",
+      },
+      {
+        date: "03/21/2024",
+        description: "Dummy Income",
+        amount: 100,
+        type: "Income",
+      },
+    ];
+
+    // Calculate total income & total expense for dummyData
+    dummyTransactions.forEach(function (transaction) {
+      if (transaction.type === "Expense") {
         totalExpense += transaction.amount;
-      } else if (transaction.type === 'Income') {
+      } else if (transaction.type === "Income") {
         totalIncome += transaction.amount;
       }
     });
-    //get saved
-    let totalSaved = totalIncome - totalExpense;
-    // Render the transaction dashboard (index.hbs) with the fetched data
+
+    // Render dashboard with dummydata for non-logged in users
     res.render("transactions/index", {
       title: "Dashboard",
-      user: req.user,
-      transactions: formattedTransactions,
+      user: null, // Non-logged-in users do not have a user field
+      transactions: dummyTransactions,
       totalIncome: totalIncome,
-      totalExpense: totalExpense
+      totalExpense: totalExpense,
     });
   } catch (error) {
     // Handle errors
@@ -65,12 +92,6 @@ router.get("/", authCheck, async (req, res) => {
   }
 });
 
-/* GET: /transactions/create => display new transaction form */
-router.get("/create", authCheck, (req, res) => {
-  res.render("transactions/create", {
-    title: "Create New Transaction",
-  });
-});
 /* POST: /transaction/create => process form submission to save new transaction*/
 router.post("/create", authCheck, async (req, res) => {
   try {
@@ -84,7 +105,7 @@ router.post("/create", authCheck, async (req, res) => {
       name: req.body.name,
       amount: req.body.amount,
       description: req.body.description,
-      user: userId
+      user: userId,
     });
 
     // Save the transaction to the db
@@ -100,7 +121,7 @@ router.post("/create", authCheck, async (req, res) => {
 });
 
 /* GET: /transaction/edit/abc123 => display selected doc in form */
-router.get("/edit/:_id", authCheck,  async (req, res) => {
+router.get("/edit/:_id", authCheck, async (req, res) => {
   try {
     // get selected doc from db
     let transaction = await Transaction.findById(req.params._id);
@@ -122,20 +143,17 @@ router.post("/edit/:_id", authCheck, async (req, res) => {
   await Transaction.findByIdAndUpdate(req.params._id, req.body);
   // Redirect to the dashboard
   res.redirect("/transactions");
-
 });
 
 /* GET: /transactions/delete/abc123 => remove selected doc & redirect */
-router.get('/delete/:_id', authCheck,  async (req, res) => {
+router.get("/delete/:_id", authCheck, async (req, res) => {
   // delete selected doc based on _id in url param
   // get selected doc from db
   let transactionToDelete = await Transaction.findById(req.params._id);
   await transactionToDelete.deleteOne({ _id: transaction._id });
   // redirect
-  res.redirect('/transactions');
-
+  res.redirect("/transactions");
 });
-
 
 // Export the router
 module.exports = router;
