@@ -283,6 +283,19 @@ nav {
     display: flex;
     justify-content: center;
 }
+.loginButtonWrapper>button:first-of-type{
+    margin-right: 1em;
+}
+/*stack buttons on small screens*/
+@media only screen and (max-width: 480px) {
+    .loginButtonWrapper{
+        flex-direction: column;
+    }
+    .loginButtonWrapper>button:first-of-type{
+        margin-bottom: 1em;
+        margin-right: unset;
+    }
+}
 
 .formButtonWrapper>button {
     background-color: var(--secondary-color);

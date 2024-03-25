@@ -1,7 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+//docs for google auth https://www.passportjs.org/concepts/authentication/google/
+const googlePassport = require('passport-google-oauth').OAuth2Strategy;;
 const User = require('../models/user');
+
+
+
 
 router.get('/register', (req, res) => {
     res.render('auth/register', { 

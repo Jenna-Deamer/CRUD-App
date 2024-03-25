@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 
-let axios = require('axios');
+
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
