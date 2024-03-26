@@ -142,7 +142,7 @@ router.get("/delete/:_id", authCheck, async (req, res) => {
   // delete selected doc based on _id in url param
   // get selected doc from db
   let transactionToDelete = await Transaction.findById(req.params._id);
-  await transactionToDelete.deleteOne({ _id: transaction._id });
+  await transactionToDelete.deleteOne({ _id: Transaction._id });
   // redirect
   res.redirect("/transactions");
 });
