@@ -1,6 +1,8 @@
-const moment = require("moment");
 const express = require("express");
 const router = express.Router();
+//npm packages for formatting data 
+const moment = require("moment");
+const intl = require("intl");
 
 // Global auth check
 const authCheck = require("../authCheck");
@@ -24,8 +26,11 @@ router.get("/", authCheck, async (req, res) => {
 
       // Format transactions for logged-in users
       const formattedTransactions = transactions.map((transaction) => {
+        //format date/time with moment
         const formattedDate = moment(transaction.date).format("MM/DD/YYYY");
-        return { ...transaction.toObject(), date: formattedDate };
+        //format currency with intl
+        const formattedAmount = new intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(transaction.amount);
+        return { ...transaction.toObject(), date: formattedDate, amount: formattedAmount };
       });
 
       // calc totals for logged-in users
@@ -37,25 +42,27 @@ router.get("/", authCheck, async (req, res) => {
         }
       });
 
-      // Render dashboard for logged-in users
-      return res.render("transactions/index", {
-        title: "Dashboard",
-        user: req.user,
-        transactions: formattedTransactions,
-        totalIncome: totalIncome,
-        totalExpense: totalExpense,
-      });
+  // Render dashboard for logged-in users
+  res.render("transactions/index", {
+    title: "Dashboard",
+    user: req.user,
+    transactions: formattedTransactions,
+    //format summary section with intl
+    totalIncome: new intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(totalIncome),
+    totalExpense: new intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(totalExpense),
+  });
     } else {
       // If user is not logged in, fetch and render dummy data
       const dummyTransactions = await Transaction.find({ isMock: true }).sort({
         date: -1,
       });
 
-      // Format dummy transactions
-      const formattedDummyTransactions = dummyTransactions.map(
+       // Format dummy transactions
+       const formattedDummyTransactions = dummyTransactions.map(
         (transaction) => {
           const formattedDate = moment(transaction.date).format("MM/DD/YYYY");
-          return { ...transaction.toObject(), date: formattedDate };
+          const formattedAmount = new intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(transaction.amount);
+          return { ...transaction.toObject(), date: formattedDate, amount: formattedAmount };
         }
       );
 
@@ -68,14 +75,14 @@ router.get("/", authCheck, async (req, res) => {
         }
       });
 
-      // Render dashboard with dummy data for non-logged-in users
-      res.render("transactions/index", {
-        title: "Dashboard",
-        user: null,
-        transactions: formattedDummyTransactions,
-        totalIncome: totalIncome,
-        totalExpense: totalExpense,
-      });
+     // Render dashboard with dummy data for non-logged-in users
+     res.render("transactions/index", {
+      title: "Dashboard",
+      user: null,
+      transactions: formattedDummyTransactions,
+      totalIncome: new intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(totalIncome),
+      totalExpense: new intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(totalExpense),
+    });
     }
   } catch (error) {
    
