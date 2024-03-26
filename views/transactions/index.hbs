@@ -1,16 +1,16 @@
 <section class="dashboard">
   <div class="dashboardHeader">
-    <h1>Welcome to your Dashboard</h1>
-    <a href="#" class="button setGoalButton">Set Goal</a>
+    <h1 class="pb-4">Welcome to your Dashboard</h1>
+    {{!-- <a href="#" class="button setGoalButton">Set Goal</a> --}}
   </div>
   <section class="dashboardContent">
     <section class="dashboardTableWrapper">
       <h2>Records</h2>
       <div class="tableOptions">
-        <label class="me-2">Sort By:</label>
+        {{!-- <label class="me-2">Sort By:</label>
         <button class="sortButton">Month</button>
         <button class="sortButton">Year</button>
-        <button class="sortButton">Transaction Type</button>
+        <button class="sortButton">Transaction Type</button> --}}
         <div class="dashboardButtonContainer">
           <a href="/transactions/create" class="dashboardAddButton"><i class="bi bi-plus-circle"></i> Add
             Transaction</a>
@@ -52,7 +52,7 @@
       <h2 class="text-center">Summary</h2>
       <p>Total Earned: <span id="totalIncome">{{totalIncome}}</span></p>
       <p>Total Spent: <span id="totalExpense">{{totalExpense}}</span></p>
-      <p class="text-center">You are $<span id=""></span> your goal</p>
+      {{!-- <p class="text-center">You are $<span id=""></span> your goal</p> --}}
     </section>
 
   </section>
