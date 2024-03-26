@@ -78,7 +78,7 @@ router.get("/", authCheck, async (req, res) => {
       });
     }
   } catch (error) {
-    // Handle errors
+   
     console.error("Error fetching transactions:", error);
     res.status(500).send("Internal Server Error");
   }
@@ -129,6 +129,40 @@ router.get("/edit/:_id", authCheck, async (req, res) => {
   }
 });
 
+/* GET: /transactions/create => display new transaction form */
+router.get("/create", authCheck, (req, res) => {
+  res.render("transactions/create", {
+    title: "Create New Transaction",
+  });
+});
+/* POST: /transaction/create => process form submission to save new transaction*/
+router.post("/create", authCheck, async (req, res) => {
+  try {
+    //create transactions under the user. Only transactions current user made will display for them.
+    // Get user ID from the authenticated user
+    const userId = req.user._id;
+    /*req.body was not populating user Field
+     Create Transaction with all fields listed out manually*/
+    const newTransaction = new Transaction({
+      type: req.body.type,
+      name: req.body.name,
+      amount: req.body.amount,
+      description: req.body.description,
+      user: userId
+    });
+
+    // Save the transaction to the db
+    await newTransaction.save();
+
+    // Redirect back to dashboard after creating the transaction
+    res.redirect("/transactions");
+  } catch (error) {
+    // Handle errors
+    console.error("Error creating transaction:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 /* POST: /transactions/edit/abc123 => updated doc from form submission */
 router.post("/edit/:_id", authCheck, async (req, res) => {
   // update doc
@@ -139,12 +173,17 @@ router.post("/edit/:_id", authCheck, async (req, res) => {
 
 /* GET: /transactions/delete/abc123 => remove selected doc & redirect */
 router.get("/delete/:_id", authCheck, async (req, res) => {
-  // delete selected doc based on _id in url param
-  // get selected doc from db
-  let transactionToDelete = await Transaction.findById(req.params._id);
-  await transactionToDelete.deleteOne({ _id: Transaction._id });
-  // redirect
-  res.redirect("/transactions");
+  try {
+    // delete selected doc based on _id in url param
+    // get selected doc from db
+    await Transaction.deleteOne({ _id: req.params._id });
+    // redirect
+    res.redirect("/transactions");
+  } catch (error) {
+    // Handle errors
+    console.error("Error deleting transaction:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 // Export the router
